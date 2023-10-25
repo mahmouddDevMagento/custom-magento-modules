@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="BraveBison\Mobiapi\Api\Data\BannerimageInterface" type="BraveBison\Mobiapi\Model\Bannerimage" />
+    <preference for="BraveBison\Mobiapi\Api\BannerimageRepositoryInterface" type="BraveBison\Mobiapi\Model\BannerimageRepository" />
+    <preference for="BraveBison\Mobiapi\Api\Data\FeaturedcategoriesInterface" type="BraveBison\Mobiapi\Model\Featuredcategories" />
+    <preference for="BraveBison\Mobiapi\Api\FeaturedcategoriesRepositoryInterface" type="BraveBison\Mobiapi\Model\FeaturedcategoriesRepository" />
+    <preference for="BraveBison\Mobiapi\Api\Data\CategoryimagesInterface" type="BraveBison\Mobiapi\Model\Categoryimages" />
+    <preference for="BraveBison\Mobiapi\Api\CategoryimagesRepositoryInterface" type="BraveBison\Mobiapi\Model\CategoryimagesRepository" />
+    <preference for="BraveBison\Mobiapi\Api\Data\CarouselimageInterface" type="BraveBison\Mobiapi\Model\Carouselimage" />
+    <preference for="BraveBison\Mobiapi\Api\CarouselimageRepositoryInterface" type="BraveBison\Mobiapi\Model\CarouselimageRepository" />
+    <preference for="BraveBison\Mobiapi\Api\Data\CarouselInterface" type="BraveBison\Mobiapi\Model\Carousel" />
+    <preference for="BraveBison\Mobiapi\Api\CarouselRepositoryInterface" type="BraveBison\Mobiapi\Model\CarouselRepository" />
+    <preference for="BraveBison\Mobiapi\Api\WalkthroughRepositoryInterface" type="BraveBison\Mobiapi\Model\WalkthroughRepository" />
+    <preference for="BraveBison\Mobiapi\Api\Data\WalkthroughInterface" type="BraveBison\Mobiapi\Model\Walkthrough" />
+
+    <virtualType name="MobiapiGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="BannerimageGirdDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">BraveBison\Mobiapi\Model\ResourceModel\Bannerimage\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">MobiapiGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="FeaturedcategoriesGirdDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">BraveBison\Mobiapi\Model\ResourceModel\Featuredcategories\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">MobiapiGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="CategoryimagesGirdDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">BraveBison\Mobiapi\Model\ResourceModel\Categoryimages\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">MobiapiGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="CarouselimageGirdDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">BraveBison\Mobiapi\Model\ResourceModel\Carouselimage\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">MobiapiGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="CarouselGirdDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">BraveBison\Mobiapi\Model\ResourceModel\Carousel\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">MobiapiGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="WalkthroughGirdDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">BraveBison\Mobiapi\Model\ResourceModel\Walkthrough\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">MobiapiGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mobiapi_bannerimage_listing_data_source" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Bannerimage\Grid\Collection</item>
+                <item name="mobiapi_featuredcategories_listing_data_source" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Featuredcategories\Grid\Collection</item>
+                <item name="mobiapi_categoryimages_listing_data_source" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Categoryimages\Grid\Collection</item>
+                <item name="mobiapi_carouselimage_listing_data_source" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Carouselimage\Grid\Collection</item>
+                <item name="mobiapi_carousel_listing_data_source" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Carousel\Grid\Collection</item>
+                <item name="mobiapi_walkthrough_listing_data_source" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Walkthrough\Grid\Collection</item>
+
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="BraveBison\Mobiapi\Model\ResourceModel\Bannerimage\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mobiapi_bannerimage</argument>
+            <argument name="eventPrefix" xsi:type="string">mobiapi_bannerimage_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">bannerimage_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Bannerimage</argument>
+        </arguments>
+    </type>
+
+    <type name="BraveBison\Mobiapi\Model\ResourceModel\Featuredcategories\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mobiapi_featuredcategories</argument>
+            <argument name="eventPrefix" xsi:type="string">mobiapi_featuredcategories_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">featuredcategories_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Featuredcategories</argument>
+        </arguments>
+    </type>
+
+    <type name="BraveBison\Mobiapi\Model\ResourceModel\Categoryimages\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mobiapi_categoryimages</argument>
+            <argument name="eventPrefix" xsi:type="string">mobiapi_categoryimages_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">categoryimages_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Categoryimages</argument>
+        </arguments>
+    </type>
+
+    <type name="BraveBison\Mobiapi\Model\ResourceModel\Carouselimage\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mobiapi_carouselimage</argument>
+            <argument name="eventPrefix" xsi:type="string">mobiapi_carouselimage_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">carouselimage_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Carouselimage</argument>
+        </arguments>
+    </type>
+
+    <type name="BraveBison\Mobiapi\Model\ResourceModel\Carousel\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mobiapi_carousel</argument>
+            <argument name="eventPrefix" xsi:type="string">mobiapi_carousel_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">carousel_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Carousel</argument>
+        </arguments>
+    </type>
+
+    <type name="BraveBison\Mobiapi\Model\ResourceModel\Walkthrough\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mobiapi_walkthrough</argument>
+            <argument name="eventPrefix" xsi:type="string">mobiapi_walkthrough_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">walkthrough_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">BraveBison\Mobiapi\Model\ResourceModel\Walkthrough</argument>
+        </arguments>
+    </type>
+
+    <type name="BraveBison\Mobiapi\Ui\Component\MassAction\Status\Options">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="urlPath" xsi:type="string">mobiapi/bannerimage/massStatus</item>
+                <item name="paramName" xsi:type="string">id</item>
+                <item name="confirm" xsi:type="array">
+                    <item name="title" xsi:type="string" translatable="true">Change Status</item>
+                    <item name="message" xsi:type="string" translatable="true">Are you sure?</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

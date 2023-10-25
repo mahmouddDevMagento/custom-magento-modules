@@ -1,0 +1,22 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+?>
+<?php
+/** @var \BraveBison\Gtag\Block\Adminhtml\Creditmemo\Ga $block */
+?>
+<?php
+$refundJson = $block->getRefundJson();
+if ($refundJson): ?>
+    <script>
+        console.log('credit memo');
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(<?=  $refundJson?>);
+    </script>
+
+<?php
+endif;

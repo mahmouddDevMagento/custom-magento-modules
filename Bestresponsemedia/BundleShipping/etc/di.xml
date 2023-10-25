@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<!--    <type name="WebShopApps\MatrixRate\Model\Carrier\Matrixrate">-->
+<!--        <plugin name="bundle_shipping_plugin" type="BestResponseMedia\BundleShipping\Plugin\MatrixratePlugin" sortOrder="1" disabled="false" />-->
+<!--    </type>-->
+    <preference for="WebShopApps\MatrixRate\Model\Carrier\Matrixrate" type="BestResponseMedia\BundleShipping\Model\Carrier\MatrixrateBundleShipping" />
+</config>

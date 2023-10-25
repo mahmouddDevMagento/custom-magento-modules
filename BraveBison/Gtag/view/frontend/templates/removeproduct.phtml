@@ -1,0 +1,10 @@
+<?php
+/** @var \BraveBison\Gtag\Block\RemoveFromCart $block */
+$data = $block->getRemoveFromCartData();
+?>
+<?php if ($data && !empty($data)): ?>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(<?=  $data?>);
+    </script>
+<?php endif; ?>

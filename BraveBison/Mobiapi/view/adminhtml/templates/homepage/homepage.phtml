@@ -1,0 +1,218 @@
+<?php
+
+$layoutOptions = $block->getLayoutData();
+$selectedLayouts = $block->getSortedSelectedLayouts();
+
+?>
+<style>
+    table {
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    #selected_layout{
+        margin-top: 60px;
+        padding: 10px;
+    }
+</style>
+
+<h2>HomePage Configure:</h2>
+
+<div id="notification" style="display:none; width: 80%; margin: 10px auto; padding: 10px; border: 1px solid #ddd; background-color: #f4f4f4;"></div>
+
+
+<table>
+    <tr>
+        <th>Layout Id</th>
+        <th>Layout Label</th>
+        <th>Action</th>
+    </tr>
+    <?php $layoutOptions = $block->getLayoutData(); ?>
+    <?php if ($layoutOptions['success'] && is_array($layoutOptions['data'])): ?>
+        <?php foreach ($layoutOptions['data'] as $option): ?>
+            <tr>
+                <td><?= $option['id'].'_'.$option['type'] ?></td>
+                <td><?= $option['label'] ?></td>
+                <td>
+                    <button class="assign-button"
+                            data-id="<?= $option['id'] ?>"
+                            data-type="<?= $option['type'] ?>"
+                            data-label="<?= $option['label'] ?>">
+                        Assign
+                    </button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="3">No layout data available.</td>
+        </tr>
+    <?php endif; ?>
+</table>
+
+<table id="selected_layout">
+
+    <tr>
+        <th>Layout Label</th>
+        <th>Type</th>
+        <th>Position</th>
+        <th>Action</th>
+    </tr>
+    <?php if (!isset($selectedLayouts)): ?>
+        <?php foreach ($selectedLayouts as $layout): ?>
+            <tr>
+                <td><?= $layout['label'] ?></td>
+                <td><?= $layout['type'] ?></td>
+                <td><?= $layout['position'] ?></td>
+                <td>
+                    <button class="unassign-button"
+                            data-id="<?= $layout['layout_id'] ?>"
+                            data-type="<?= $layout['type'] ?>"
+                            data-label="<?= $layout['label'] ?>">
+                        UnAssign
+                    </button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td>No selected layouts available.</td>
+        </tr>
+    <?php endif; ?>
+</table>
+
+<script>
+    require(['jquery'], function($) {
+        var selectedItems = <?= /* @noEscape */ $block->getJsonSelectedLayouts() ?>;
+
+        function updateSelectedLayoutsTable() {
+            var selectedLayoutsTable = $('#selected_layout');
+
+            // Clear the existing rows in the table
+            selectedLayoutsTable.find('tr:gt(0)').remove();
+
+            // append rows for selected layouts
+            selectedItems.forEach(function(item, index) {
+                var newRow = '<tr>' +
+                    '<td>' + item.label + '</td>' +
+                    '<td>' + item.type + '</td>' +
+                    '<td>' + item.position + '</td>' +
+                    '<td>' +
+                    '<button class="unassign-button" ' +
+                    'data-id="' + item.layout_id + '" ' +
+                    'data-type="' + item.type + '" ' +
+                    'data-label="' + item.label + '">UnAssign</button>' +
+                    '</td>' +
+                    '</tr>';
+
+                selectedLayoutsTable.append(newRow);
+            });
+        }
+
+        $(document).ready(function() {
+            // Load existing selected layouts on page load
+            updateSelectedLayoutsTable();
+
+            $('.assign-button').on('click', function() {
+                var layoutId = $(this).data('id');
+                var layoutType = $(this).data('type');
+                var layoutLabel = $(this).data('label');
+
+                // Create an object with the item data
+                var item = {
+                    layout_id: layoutId,
+                    type: layoutType,
+                    label: layoutLabel,
+                    position: selectedItems.length + 1,
+                };
+
+                // Push the item to the selected items array
+                selectedItems.push(item);
+
+                // Update the positions of all items in the array
+                for (var i = 0; i < selectedItems.length; i++) {
+                    selectedItems[i].position = i + 1;
+                }
+
+                // Update the selected layouts table
+                updateSelectedLayoutsTable();
+
+                // Update the database with the new selectedItems array
+                updateAppWithSelectedItems(selectedItems);
+            });
+
+
+            $('#selected_layout').on('click', '.unassign-button', function() {
+                var layoutId = $(this).data('id');
+                var layoutType = $(this).data('type');
+                var layoutLabel = $(this).data('label');
+
+                // Find the item to be unassigned in the selectedItems array
+                var itemIndex = selectedItems.findIndex(function(item) {
+                    console.log(item);
+                    return item.layout_id === layoutId && item.type === layoutType;
+                });
+
+                if (itemIndex !== -1) {
+                    // Remove the item from the selectedItems array
+                    selectedItems.splice(itemIndex, 1);
+
+                    // Update the positions of the remaining items
+                    for (var i = 0; i < selectedItems.length; i++) {
+                        selectedItems[i].position = i + 1;
+                    }
+
+                    // Update the selected layouts table
+                    updateSelectedLayoutsTable();
+
+                    // Update the database with the new selectedItems array
+                    updateAppWithSelectedItems(selectedItems);
+                }
+            });
+
+            function updateAppWithSelectedItems(updatedItems) {
+                $.ajax({
+                    url: "<?= /* @noEscape */ $block->getUrl('mobiapi/homepage/update/') ?>",
+                    type: 'POST',
+                    data: {
+                        selectedItems: JSON.stringify(updatedItems)
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            showMessage('Layout updated successfully.', false);
+                        } else {
+                            showMessage('Failed to update layout.', true);
+                        }
+                    },
+                    error: function() {
+                        showMessage('Error during the AJAX request.', true);
+                    }
+                });
+            }
+
+            function showMessage(message, isError) {
+                var notification = $('#notification');
+
+                notification.text(message)
+                    .css('background-color', isError ? '#ffcccc' : '#ccffcc')
+                    .fadeIn(400).delay(3000).fadeOut(400);
+            }
+
+        });
+    });
+</script>

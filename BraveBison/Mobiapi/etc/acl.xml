@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="BraveBison_Mobiapi::mobiapi" title="Mobiapi Menu" sortOrder="10" >
+                    <resource id="BraveBison_Mobiapi::configuration" title="Configuration Of Mobiapi" sortOrder="20" />
+                    <resource id="BraveBison_Mobiapi::bannerimage" title="Banner Image" sortOrder="30" />
+                    <resource id="BraveBison_Mobiapi::featuredcategories" title="Featured Categories" sortOrder="40" />
+                    <resource id="BraveBison_Mobiapi::categoryimages" title="Category Images" sortOrder="50" />
+                    <resource id="BraveBison_Mobiapi::carouselimage" title="Carousel Image" sortOrder="60" />
+                    <resource id="BraveBison_Mobiapi::carousel" title="Carousels" sortOrder="70" />
+                    <resource id="BraveBison_Mobiapi::walkthrough" title="Walk Through" sortOrder="80" />
+                    <resource id="BraveBison_Mobiapi::homepage" title="Homepage" sortOrder="90" />
+
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

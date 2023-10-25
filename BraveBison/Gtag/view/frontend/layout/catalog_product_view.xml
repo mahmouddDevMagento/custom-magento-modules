@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="before.body.end">
+            <block class="BraveBison\Gtag\Block\ListJson" name="bb_gtag_product_view_detail"
+                   template="BraveBison_Gtag::detailproduct.phtml"
+                   ifconfig="google/gtag/analytics4/active">
+                <arguments>
+                    <argument name="show_category" xsi:type="boolean">true</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

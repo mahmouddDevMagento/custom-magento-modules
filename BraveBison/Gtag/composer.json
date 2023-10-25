@@ -1,0 +1,15 @@
+{
+  "name": "bravebison/module-gtag",
+  "description": "BraveBison Google Analytics 4",
+  "type": "magento2-module",
+  "version": "dev-master",
+  "license": [
+    "OSL-3.0"
+  ],
+  "authors": [
+    {
+      "name": "BestResponseMedia",
+      "email": "developer@bestresponsemedia.com"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+<fieldset class="fieldset info">
+<div class="field github_url required">
+        <label class="label" for="url"><span><?= $block->escapeHtml(__('Url Attribute')) ?></span></label>
+        <div class="control">
+            <input type="url" name="github_url" id="url" class="input-text"
+                data-validate="{required:true, 'validate-url':true}" />
+        </div>
+    </div>
+</fieldset>

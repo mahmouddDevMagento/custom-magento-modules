@@ -1,0 +1,131 @@
+<?php
+//if (!isset($_COOKIE['currency_popup_seen']) || $_COOKIE['currency_popup_seen'] !== '1'):
+//?>
+<?php
+$websites = $block->getWebsites();
+$websiteId = $block->getCurrentWebsiteId();
+$currencies = $block->getAllowedCurrencies();
+?>
+
+<div id="modal-content">
+    <div class="magento__dropdown-widget">
+        <span class="action toggle" data-toggle="dropdown" aria-haspopup="true" data-mage-init='{"dropdown":{}}'>
+            <?php
+                switch ($block->getCurrentStoreCurrencyCode($websiteId)) {
+                    case 'GBP':
+                        $selectedCurrencyLabel  = 'United Kingdom';
+                        break;
+                    case 'USD':
+                        $selectedCurrencyLabel = 'United States of America';
+                        break;
+                    default:
+                        $selectedCurrencyLabel = 'Rest of the World';
+                        break;
+                }             
+            ?>
+            <?php
+            $selectedCurrencyCode = $block->getCurrentStoreCurrencyCode($websiteId);
+            $currencySymbol = $block->getCurrencySymbol($selectedCurrencyCode);
+            ?>
+            <span class="current" id="selected-currency-label">
+                <?= $selectedCurrencyLabel ?> (<?= $selectedCurrencyCode ?> <?= $currencySymbol ?>)
+            </span>
+
+        </span>
+        <ul class="dropdown switcher-dropdown" data-target="dropdown" id="currency-select">
+            <?php foreach ($websites as $website):
+                $hasStore = false;
+                $currentStore = null;
+                foreach ($website->getStores() as $store) {
+                    if ($store->getIsActive()) {
+                        $hasStore = true;
+                        $currentStore = $store;
+                        break;
+                    }
+                }
+
+                if (!$hasStore) {
+                    continue;
+                }
+
+                $currencyCode = $currentStore->getCurrentCurrency()->getCode();
+                $currencyCode = $currentStore->getCurrentCurrency()->getCode();
+                $label = '';
+                switch ($currencyCode) {
+                    case 'GBP':
+                        $label = 'United Kingdom';
+                        break;
+                    case 'USD':
+                        $label = 'United States of America';
+                        break;
+                    default:
+                        $label = 'Rest of the World';
+                        break;
+                }
+                $currencySymbol = $block->getCurrencySymbol($currencyCode);
+//                $_selected = ($website->getId() == $websiteId) ? ' selected' : '';
+                ?>
+                <li class="_<?= $website->getCode() ?> switcher-option">
+                    <a href="<?= $block->escapeUrl($block->getRedirectUrl($website)) ?>">
+                        <?= $label ?> (<?= $currencyCode ?> <?= $currencySymbol ?>)
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+
+    </div>
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function (
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Change Country Region',
+                buttons: [{
+                    text: $.mage.__('Continue'),
+                    class: '',
+                    click: function () {
+                        var selectedCurrency = $('#currency-select .selected').data('currency');
+                        console.log(selectedCurrency);
+
+                        // Redirect to the selected currency's URL
+                        var selectedCurrencyUrl = $('#currency-select .selected a').attr('href');
+                        if (selectedCurrencyUrl) {
+                            location.href = selectedCurrencyUrl;
+                        }
+
+                        this.closeModal();
+                    }
+                }]
+            };
+            var popup = modal(options, $('#modal-content'));
+            $('#modal-content').modal('openModal');
+
+            $('#currency-select .switcher-option').on('click', function () {
+                $('#currency-select .switcher-option').removeClass('selected');
+                $(this).addClass('selected');
+
+                var selectedLabel = $(this).text();
+                $('#selected-currency-label').text(selectedLabel);
+            });
+
+        }
+    );
+</script>
+
+
+
+<!--    --><?php
+//    setcookie('currency_popup_seen', '1', time() + 86400, '/');
+//endif;
+//?>

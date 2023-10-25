@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="BraveBison_Mobiapi::mobiapi" title="Mobiapi " module="BraveBison_Mobiapi" sortOrder="10" resource="BraveBison_Mobiapi::mobiapi"/>
+        <add id="BraveBison_Mobiapi::configuration" title="Mobiapi Configuration" module="BraveBison_Mobiapi" sortOrder="10" parent="BraveBison_Mobiapi::mobiapi" action="adminhtml/system_config/index" resource="BraveBison_Mobiapi::configuration"/>
+        <add id="BraveBison_Mobiapi::bannerimage" title="Mobiapi Banner Image" module="BraveBison_Mobiapi" sortOrder="20" parent="BraveBison_Mobiapi::mobiapi" action="mobiapi/bannerimage/index" resource="BraveBison_Mobiapi::bannerimage"/>
+        <add id="BraveBison_Mobiapi::featuredcategories" title="Featured Categories" module="BraveBison_Mobiapi" sortOrder="30" parent="BraveBison_Mobiapi::mobiapi" action="mobiapi/featuredcategories/index" resource="BraveBison_Mobiapi::featuredcategories"/>
+        <add id="BraveBison_Mobiapi::categoryimages" title="Category Images" module="BraveBison_Mobiapi" sortOrder="40" parent="BraveBison_Mobiapi::mobiapi" action="mobiapi/categoryimages/index" resource="BraveBison_Mobiapi::categoryimages"/>
+        <add id="BraveBison_Mobiapi::carouselimage" title="Carousel Image" module="BraveBison_Mobiapi" sortOrder="50" parent="BraveBison_Mobiapi::mobiapi" action="mobiapi/carouselimage/index" resource="BraveBison_Mobiapi::carouselimage"/>
+        <add id="BraveBison_Mobiapi::carousel" title="Manage Carousels" module="BraveBison_Mobiapi" sortOrder="60" parent="BraveBison_Mobiapi::mobiapi" action="mobiapi/carousel/index" resource="BraveBison_Mobiapi::carousel"/>
+        <add id="BraveBison_Mobiapi::walkthrough" title="Manage WalkThrough" module="BraveBison_Mobiapi" sortOrder="70" parent="BraveBison_Mobiapi::mobiapi" action="mobiapi/walkthrough/index" resource="BraveBison_Mobiapi::walkThrough"/>
+        <add id="BraveBison_Mobiapi::homepage" title="HomePage Configuration" module="BraveBison_Mobiapi" sortOrder="70" parent="BraveBison_Mobiapi::mobiapi" action="mobiapi/homepage/index" resource="BraveBison_Mobiapi::homepage"/>
+
+        <!--        <add id="BraveBison_Mobiapi::view" title="View" module="BraveBison_Mobiapi" sortOrder="30" parent="BraveBison_Mobiapi::menu" action="custommenu/view/index" resource="BraveBison_Mobiapi::view"/>-->
+    </menu>
+</config>

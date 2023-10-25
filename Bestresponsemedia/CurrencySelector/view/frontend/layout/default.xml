@@ -1,0 +1,9 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:View/Layout:etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="main">
+            <block class="BestResponseMedia\CurrencySelector\Block\CurrencySelect" name="modal.content" as="modal_content" template="BestResponseMedia_CurrencySelector::currency-select.phtml">
+                <block class="Magento\Directory\Block\Currency" name="currency.switcher" as="currency_switcher" template="Magento_Directory::currency.phtml"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

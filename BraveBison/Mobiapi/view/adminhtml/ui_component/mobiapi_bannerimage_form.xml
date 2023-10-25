@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">mobiapi_bannerimage_form.mobiapi_bannerimage_form_data_source</item>
+            <item name="deps" xsi:type="string">mobiapi_bannerimage_form.mobiapi_bannerimage_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">General Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">mobiapi_bannerimage_form</item>
+        </item>
+        <item name="spinner" xsi:type="string">general_information</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">BraveBison\Mobiapi\Block\Adminhtml\Button\Back</item>
+            <item name="delete" xsi:type="string">BraveBison\Mobiapi\Block\Adminhtml\Bannerimage\Button\Delete</item>
+            <item name="reset" xsi:type="string">BraveBison\Mobiapi\Block\Adminhtml\Button\Reset</item>
+            <item name="save" xsi:type="string">BraveBison\Mobiapi\Block\Adminhtml\Bannerimage\Button\Save</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <dataSource name="mobiapi_bannerimage_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">BraveBison\Mobiapi\Model\Bannerimage\DataProvider</argument>
+            <argument name="name" xsi:type="string">mobiapi_bannerimage_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="*/*/save" />
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="mobiapi_bannerimage">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">General Information</item>
+                <item name="sortOrder" xsi:type="number">20</item>
+            </item>
+        </argument>
+<!--        <field name="id">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="dataType" xsi:type="string">text</item>-->
+<!--                    <item name="visible" xsi:type="boolean">false</item>-->
+<!--                    <item name="formElement" xsi:type="string">input</item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--        </field>-->
+<!--        <field name="status" formElement="select">-->
+<!--            <settings>-->
+<!--                <dataType>text</dataType>-->
+<!--                <label translate="true">Select status</label>-->
+<!--                <dataScope>status</dataScope>-->
+<!--            </settings>-->
+<!--            <formElements>-->
+<!--                <select>-->
+<!--                    <settings>-->
+<!--                        <options>-->
+<!--                            <option name="1" xsi:type="array">-->
+<!--                                <item name="value" xsi:type="string">0</item>-->
+<!--                                <item name="label" xsi:type="string">Disabled</item>-->
+<!--                            </option>-->
+<!--                            <option name="2" xsi:type="array">-->
+<!--                                <item name="value" xsi:type="string">1</item>-->
+<!--                                <item name="label" xsi:type="string">Enabled</item>-->
+<!--                            </option>-->
+<!--                        </options>-->
+<!--                        <caption translate="true">&#45;&#45; Please Select &#45;&#45;</caption>-->
+<!--                    </settings>-->
+<!--                </select>-->
+<!--            </formElements>-->
+<!--        </field>-->
+        <field name="status" sortOrder="10" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Enable Page</label>
+                <dataScope>status</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+
+
+        <field name="sort_order">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Sort Order</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-digits" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="type" >
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">BraveBison\Mobiapi\Model\Config\Source\TypeOptions</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Select Type</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="product_cat_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Product/Category Id</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="stores">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="string">0</item>
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="source" xsi:type="string">block</item>
+                    <item name="dataScope" xsi:type="string">store_id</item>
+                    <item name="formElement" xsi:type="string">multiselect</item>
+                    <item name="label" xsi:type="string" translate="true">Store View</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+                <item name="options" xsi:type="object">Magento\Cms\Ui\Component\Listing\Column\Cms\Options</item>
+            </argument>
+        </field>
+
+<!--        <field name="image">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="visible" xsi:type="boolean">true</item>-->
+<!--                    <item name="allowedExtensions" xsi:type="string">jpg jpeg png</item>-->
+<!--                    <item name="label" xsi:type="string">Banner Image</item>-->
+<!--                    <item name="formElement" xsi:type="string">imageUploader</item>-->
+<!--                    <item name="uploaderConfig" xsi:type="array">-->
+<!--                        <item name="url" xsi:type="url" path="mobiapi/bannerimage/upload">-->
+<!--                            <param name="target_element_id">image</param>-->
+<!--                            <param name="type">image</param>-->
+<!--                        </item>-->
+<!--                    </item>-->
+<!--                    <item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>-->
+<!--                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>-->
+<!--                    <item name="validation" xsi:type="array">-->
+<!--                        <item name="required-entry" xsi:type="boolean">true</item>-->
+<!--                    </item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--        </field>-->
+
+        <field name="image" sortOrder="80" formElement="imageUploader">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">bannerimage</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <elementTmpl>ui/form/element/uploader/image</elementTmpl>
+                <dataType>string</dataType>
+                <label translate="true">Banner Image</label>
+                <visible>true</visible>
+                <required>false</required>
+            </settings>
+            <formElements>
+                <imageUploader>
+                    <settings>
+                        <required>false</required>
+                        <uploaderConfig>
+                            <param xsi:type="url" name="url" path="mobiapi/bannerimage/upload"/>
+                        </uploaderConfig>
+                        <previewTmpl>Magento_Catalog/image-preview</previewTmpl>
+                        <openDialogTitle>Media Gallery</openDialogTitle>
+                        <allowedExtensions>jpg jpeg gif png</allowedExtensions>
+                        <maxFileSize>4194304</maxFileSize>
+                    </settings>
+                </imageUploader>
+            </formElements>
+        </field>
+
+    </fieldset>
+</form>

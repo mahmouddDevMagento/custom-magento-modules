@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="bravebison" translate="label" sortOrder="10">
+            <label>BraveBison</label>
+        </tab>
+        <section id="mobiapi" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>mobiapi</class>
+            <label>Mobiapi</label>
+            <tab>bravebison</tab>
+            <resource>BraveBison_Mobiapi::mobiapi</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Home Page General Configuration</label>
+                <field id="page_size" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Select Page Size For Collection</label>
+                    <validate>validate-digits validate-not-negative-number</validate>
+                </field>
+                <field id="homepage_featured_product" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Random Products</label>
+                    <comment>This will enable generation of random products in home page .</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="homepage_layout" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>HomePage Layout</label>
+                    <source_model>BraveBison\Mobiapi\Model\System\Config\HomePageLayout</source_model>
+                </field>
+            </group>
+            <group id="app_category_view" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label> App Category View Type</label>
+                <field id="category_view_type" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Category View Type</label>
+                    <source_model>BraveBison\Mobiapi\Model\System\Config\CategoryViewType</source_model>
+                </field>
+            </group>
+            <group id="walk_through" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Walk Through Version </label>
+                <field id="walk_through_version" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>App Version</label>
+                    <validate>required-entry validate-digits validate-not-negative-number </validate>
+                    <backend_model>BraveBison\Mobiapi\Model\System\Config\Backend\VersionValidator</backend_model>
+<!--                    <validate>BraveBison\Mobiapi\Model\System\Validation\VersionValidator</validate>-->
+                    <comment>Upgrade app version </comment>
+
+                </field>
+            </group>
+        </section>
+
+    </system>
+</config>

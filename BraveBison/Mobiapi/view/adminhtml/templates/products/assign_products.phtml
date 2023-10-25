@@ -1,0 +1,25 @@
+<?php
+
+$blockGrid = $block->getBlockGrid();
+$gridJsObjectName = $blockGrid->getJsObjectName();
+?>
+<?= $block->getGridHtml() ?>
+<?php
+//var_dump($block->getProductsJson());
+//die('dlmk');
+//?>
+
+<input type="hidden" name="carousel_products['product_ids']" data-form-part="mobiapi_carousel_form" id="carousel_products" value="" />
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "BraveBison_Mobiapi/js/assign-products": {
+                "selectedProducts":  <?= /* @escapeNotVerified */ $block->getProductsJson() ?: '{}' ?>,
+                "gridJsObjectName": <?= /* @escapeNotVerified */ '"' . $gridJsObjectName . '"' ?: '{}' ?>
+            }
+        }
+    }
+</script>
+<script>
+    require('mage/apply/main').apply();
+</script>

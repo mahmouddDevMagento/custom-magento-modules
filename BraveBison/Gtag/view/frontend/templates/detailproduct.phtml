@@ -1,0 +1,21 @@
+<?php
+/** @var \Magento\GoogleTagManager\Block\ListJson $block */
+$product = $block->getCurrentProduct();
+
+?>
+
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "BraveBison_Gtag/js/actions/product-detail": {
+                "id": "<?= $block->escapeJs($product->getSku()) ?>",
+                "product_id": "<?= $block->escapeJs($product->getId()) ?>",
+                "currencyCode": "<?= $block->escapeJs($block->getCurrentCurrency()) ?>",
+                "price": "<?= $block->escapeJs($product->getFinalPrice()) ?>",
+                "name": "<?= $block->escapeJs($product->getName()) ?>",
+                "category": "<?= $block->escapeJs($block->getProductCategory()) ?>"
+            }
+        }
+    }
+</script>

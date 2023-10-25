@@ -1,0 +1,30 @@
+<?php
+//if ($block) {
+//    var_dump(get_class($block)); // Output the block class
+//    die('dddddddddddddd');
+//} else {
+//    echo "Block is not defined.";
+//    die(); // Terminate script execution to investigate further
+//}
+$blockGrid = $block->getBlockGrid();
+$gridJsObjectName = $blockGrid->getJsObjectName();
+
+$imagesJson = $block->getImagesJson();
+var_dump($imagesJson);die();
+
+?>
+<?= $block->getGridHtml() ?>
+<input type="hidden" name="carousel_images" data-form-part="carousel_images" id="carousel_images" value="<?= /* @escapeNotVerified */ $imagesJson ?>" />
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "BraveBison_Mobiapi/js/assign-images": {
+                "selectedImages": <?= /* @escapeNotVerified */ $imagesJson ?>,
+                "gridJsObjectName": <?= /* @escapeNotVerified */ '"' . $gridJsObjectName . '"' ?: '{}' ?>
+            }
+        }
+    }
+</script>
+<script>
+    require('mage/apply/main').apply();
+</script>
