@@ -1,0 +1,113 @@
+<?php
+$helper = $this->helper('BestResponseMedia\CurrencySwitcher\Helper\Data');
+$address = $this->helper('BestResponseMedia\CurrencySwitcher\Helper\Address');
+$customerAddress = $address->getGeoIpData();
+$countries = $helper->getCountries();
+//echo '<pre>';
+//var_dump($countries);
+//echo '</pre>';
+//die();
+$availableCurrencies = $helper->getAllCurrency();
+$currencyInterface = $helper->getCurrencyData();
+$countryPopup = $helper->getCountryPopup();
+$helper->getAllStores();
+$ShippingCountry = $helper->getCurrentCurrency();
+$brmCurrencySwitcherUrl = $block->getUrl('brmcurrency/switcher');
+$currentCountry = $address->getLocationInfoByIp();
+$geoIpData = $helper->getGeoIpData();
+$helperCountry = $this->helper('BestResponseMedia\CustomThemeConfiguration\Helper\Currency');
+$countryName = $helperCountry->getCountryByWebsite();
+$count = 0;
+?>
+<div class="popup-modal" id="shipping-destination">
+    <div class="shipping-destination-overlay"></div>
+    <div class="modal-container">
+        <h2 class="title h3"><?= __('Shipping destination and currency') ?></h2>
+        <?php if (!empty($ShippingCountry) && !empty($customerAddress)): ?>
+            <div class="current_usage">
+                <p><?= __('You are currently shipping to '); ?></p>
+                <?= $helper->getCountryByCookies(); ?>
+                <strong> <span class="country_name_head"><?= $ShippingCountry['country'] ?> </span> ( <span
+                            class="currency_name_head"> <?= $ShippingCountry['currency_code'] . ' ' . $ShippingCountry['currency_symbol']; ?> </span>)
+                </strong>
+            </div>
+        <?php elseif ($helper->getCountryByCookies()): ?>
+            <div class="current_usage">
+                <p><?= __('You are currently shipping to '); ?></p>
+                <strong> <span class="country_name_head"><?= $helper->getCountryByCookies() ?> </span> ( <span
+                            class="currency_name_head"> <?= $helper->getCurrentCurrencyCode() . ' ' . $helper->getCurrentCurrencySymbol(); ?> </span>)
+                </strong>
+            </div>
+        <?php else: ?>
+            <div class="current_usage">
+                <p><?= __('You are currently shipping to '); ?></p>
+                <strong> <span class="country_name_head"><?= $countryName ?> </span> ( <span
+                            class="currency_name_head"> <?= $helper->getCurrentCurrencyCode() . ' ' . $helper->getCurrentCurrencySymbol(); ?> </span>)
+                </strong>
+            </div>
+        <?php endif; ?>
+        <form action="<?= $brmCurrencySwitcherUrl; ?>" class="dest_fields">
+            <div class="fieldset">
+                <div class="field">
+                    <lable class="label"><?= __('Please select your shipping destination') ?></lable>
+                    <select name="country" id="country_code">
+                        <?php foreach ($countries as $country): ?>
+                            <?php
+                            if ($count == 0) {
+                                $count++;
+                                continue;
+                            }
+
+                            ?>
+                            <?php if ($helper->getCountryByCookies()): ?>
+                                <option data-countryname="<?= $country['label']; ?>" value="<?= $country['value']; ?>"
+                                    <?php if ($helper->getCountryCode() == $country['value']): ?>  selected <?php endif; ?>>
+                                    <?= $country['label'] ?>
+                                </option>
+                            <?php else: ?>
+                                <option data-countryname="<?= $country['label']; ?>" value="<?= $country['value']; ?>"
+                                    <?php if ($countryName == $country['label']): ?>  selected <?php endif; ?>>
+                                    <?= $country['label'] ?>
+                                </option>
+                            <?php
+                            endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="fieldset">
+                <div class="field">
+                    <lable class="label"><?= __('Please select your preferred purchase currency') ?></lable>
+
+                    <select name="currency" id="currency_code">
+                        <?php foreach ($availableCurrencies as $currencyCode): ?>
+                            <?php if ($helper->getCurrencCode()): ?>
+                                <option
+                                        data-currencycode="<?= $currencyCode . ' ' . $currencyInterface->getCurrency($currencyCode)->getSymbol();; ?>"
+                                        value="<?= $currencyCode ?>" <?php if ($helper->getCurrencCode() == $currencyCode): ?> selected
+                                <?php endif; ?> ><?= $currencyInterface->getCurrency($currencyCode)->getName(); ?>  <?= $currencyInterface->getCurrency($currencyCode)->getSymbol(); ?>
+                                </option>
+                            <?php else: ?>
+                                <option
+                                        data-currencycode="<?= $currencyCode . ' ' . $currencyInterface->getCurrency($currencyCode)->getSymbol();; ?>"
+                                        value="<?= $currencyCode ?>" <?php if ($helper->getCurrentCurrencyCode() == $currencyCode): ?> selected
+                                <?php endif; ?> ><?= $currencyInterface->getCurrency($currencyCode)->getName(); ?>  <?= $currencyInterface->getCurrency($currencyCode)->getSymbol(); ?>
+                                </option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn-p" id="action-sd" type="submit"><?= __('Save settings') ?></button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "BestResponseMedia_CurrencySwitcher/js/shipping-destination": {}
+        }
+    }
+</script>

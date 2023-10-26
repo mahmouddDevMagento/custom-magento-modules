@@ -1,0 +1,253 @@
+<?php /**@var $this \Globale\BrowsingLite\Block\Client */ ?>
+<?php
+$dataHelper = $this->helper('BestResponseMedia\Theme\Helper\Data');
+$helper = $this->helper('BestResponseMedia\Theme\Helper\Product');
+$store = $dataHelper->getStore();
+$storeId = $store->getId();
+$gtmAccountId = $dataHelper->getConfig('google/analytics/container_id', null);
+$gaAccountId = $dataHelper->getConfig('google/analytics/account', null);
+$quotesData = $helper->getQuotesData();
+$customerEmail = $helper->getCustomerEmail() ? $helper->getCustomerEmail() : "";
+$quoteDataGeneral = $helper->getQuoteDataFun();
+$quoteCurrency = $helper->getBaseCurrencyCode();
+$currentUrl = $helper->getUrlInterfaceData();
+?>
+
+<?php if ($this->isEnabled()): ?>
+    <script id="globaleScript">
+        <?php if ($this->isGemVersionTs()): ?>
+        (function () {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = '<?php echo $this->getGemJsSrc() ?>';
+            document.getElementsByTagName('head')[0].appendChild(s);
+        })();
+        <?php else: ?>
+        require(['jquery'], function () {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = '<?php echo $this->getGemJsSrc() ?>';
+            document.getElementsByTagName('head')[0].appendChild(s);
+        });
+        <?php endif; ?>
+    </script>
+<?php endif; ?>
+<?php if (strpos($currentUrl, 'checkout') !== false && strpos($currentUrl, 'success') == false) : ?>
+    <script>
+        var glegem = glegem || function () {
+            (window["glegem"].q = window["glegem"].q || []).push(arguments)
+        };
+        glegem("OnCheckoutStepLoaded", function (data) {
+            switch (data.StepId) {
+                case data.Steps.LOADED:
+                    
+                    //GA4 send order data once checkout loaded
+                    var GTMOrderData = [];
+                    for (i = 0; i < data.details.ProductInformation.length; i++) {
+                        var GTMOrderItem = {
+                            'name': data.details.ProductInformation[i].ProductName,
+                            'id': data.details.ProductInformation[i].SKU,
+                            'price': data.details.ProductInformation[i].ProductPrices.CustomerTransactionInMerchantCurrency.CustomerDiscountedPriceInMerchantCurrency,
+                            'brand': data.details.ProductInformation[i].Brand,
+                            'category': (data.details.ProductInformation[i].Categories != null && data.details.ProductInformation[i].Categories.length) ? data.details.ProductInformation[i].Categories[0].Name : '',
+                            'quantity': data.details.ProductInformation[i].Quantity
+                        };
+                        GTMOrderData.push(GTMOrderItem);
+                    }
+                    dataLayer.push({
+                        'event': 'checkout',
+                        'ecommerce': {
+                            'currencyCode': data.details.MerchantCurrencyCode,
+                            'checkout': {
+                                'actionField': {'step': 2},
+                                'products': GTMOrderData
+                            }
+                        }
+                    })
+
+                    ometria.init('checkout', null, <?= $storeId?>);
+                <?php if ($customerEmail): ?>
+                    ometria.identify(<?= $customerEmail ? '"' . $customerEmail . '"' : "" ?>);
+                <?php endif; ?>
+                    var basket = new ometria.Basket();
+                    basket.setId(<?= '"' . $quoteDataGeneral->getId() . '"' ?>);
+                    basket.setTotal(<?= $quoteDataGeneral->getSubtotal() ? $quoteDataGeneral->getSubtotal() : "" ?>, <?='"' . $quoteCurrency . '"'?>);
+
+                <?php foreach ($quotesData as $item =>$val): ?>
+                    basket.addLineItem(<?= '"' . $item . '"'?>, <?= $val[0]?>, <?= $val[1]?>);
+                <?php endforeach; ?>
+                    ometria.setBasket(basket);
+                    break;
+
+                case data.Steps.CONFIRMATION:
+                    if (data.IsSuccess && !data.IsPageReload) {
+                        //add mysize code
+                        var mySizOrderData = [];
+
+                        for (i = 0; i < data.details.ProductInformation.length; i++) {
+                            let sizeAttributeValue = '';
+                            data.details.ProductInformation[i].ProductAttributes.forEach(attribute => {
+                                if (attribute.AttributeCode === "Size") {
+                                    sizeAttributeValue = attribute.AttributeName;
+                                }
+                            });
+                            let chart_codes_key = 'chart_codes_'+ data.details.ProductInformation[i].ProductGroupCode;
+
+                            var mySizeOrderItem = {
+                                "external_product_id":data.details.ProductInformation[i].SKU,
+                                "order_token": data.OrderId,
+                                "product_url": data.details.ProductInformation[i].ProductURL,
+                                "product_title": data.details.ProductInformation[i].ProductName,
+                                "product_category": (data.details.ProductInformation[i].Categories != null && data.details.ProductInformation[i].Categories.length) ? data.details.ProductInformation[i].Categories[0].Name : '',
+                                "size_chart_code": localStorage.getItem(chart_codes_key) ? localStorage.getItem(chart_codes_key) : '',
+                                "selected_size": sizeAttributeValue,
+                                "quantity": data.details.ProductInformation[i].Quantity,
+                                "currency": data.details.MerchantCurrencyCode,
+                                "shipment_country": data.details.CustomerDetails.ShippingAddress.ShippingCountryName,
+                                "shipment_city": data.details.CustomerDetails.ShippingAddress.ShippingCity,
+                                "current_total_discounts": data.details.ProductInformation[i].ProductPrices.MerchantTransaction.ListPrice - data.details.ProductInformation[i].ProductPrices.MerchantTransaction.SalePrice,
+                                "current_total_price": data.details.OrderPrices.CustomerTransactionInMerchantCurrency.CustomerTotalPriceInMerchantCurrency,
+                                "current_subtotal_price": data.details.OrderPrices.CustomerTransactionInMerchantCurrency.CustomerTotalProductsPriceInMerchantCurrency,
+                                "current_total_tax": data.details.OrderPrices.CustomerTransactionInMerchantCurrency.CustomerVATInMerchantCurrency
+                            };
+                            mySizOrderData.push(mySizeOrderItem);
+                        }
+                        
+                        window.MYSIZE_ReportOrder(mySizOrderData);
+                        localStorage.clear();
+
+                        var totalCartDiscountInMerchantCurrency = 0,
+                            f,
+                            j,
+                            dl;
+                        for (i = 0; i < data.details.Discounts.length; i++) {
+                            if (data.details.Discounts[i].DiscountTypeId == 1) {
+                                totalCartDiscountInMerchantCurrency = totalCartDiscountInMerchantCurrency + data.details.Discounts[i].DiscountPrices.CustomerTransactionInMerchantCurrency.CustomerPriceInMerchantCurrency;
+                            }
+                        }
+
+                        // include of GA script - can be removed if already exists on the page
+                        (function (i, s, o, g, r, a, m) {
+                            i['GoogleAnalyticsObject'] = r;
+                            i[r] = i[r] || function () {
+                                (i[r].q = i[r].q || []).push(arguments)
+                            }, i[r].l = 1 * new Date();
+                            a = s.createElement(o),
+                                m = s.getElementsByTagName(o)[0];
+                            a.async = 1;
+                            a.src = g;
+                            m.parentNode.insertBefore(a, m)
+                        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+                        ga('create', '<?= $gaAccountId; ?>', 'auto');
+                        ga('require', 'ecommerce');
+                        ga('ecommerce:addTransaction', {
+                            'id': data.details.OrderID,
+                            'affiliation': 'Global-E',
+                            'revenue': data.details.OrderPrices.CustomerTransactionInMerchantCurrency.CustomerTotalPriceInMerchantCurrency,
+                            'shipping': data.details.OrderPrices.CustomerTransactionInMerchantCurrency.CustomerShippingPriceInMerchantCurrency,
+                            'tax': data.details.OrderPrices.CustomerTransactionInMerchantCurrency.CustomerVATInMerchantCurrency,
+                            'currency': data.details.MerchantCurrencyCode
+                        });
+
+                        for (i = 0; i < data.details.ProductInformation.length; i++) {
+                            ga('ecommerce:addItem', {
+                                'id': data.OrderId,
+                                'name': data.details.ProductInformation[i].ProductName,
+                                'sku': data.details.ProductInformation[i].SKU,
+                                'category': (data.details.ProductInformation[i].Categories != null && data.details.ProductInformation[i].Categories.length) ? data.details.ProductInformation[i].Categories[0].Name : '',
+                                'price': data.details.ProductInformation[i].ProductPrices.CustomerTransactionInMerchantCurrency.CustomerDiscountedPriceInMerchantCurrency,
+                                'quantity': data.details.ProductInformation[i].Quantity,
+                                'currency': data.details.MerchantCurrencyCode
+                            });
+                        }
+                        ga('ecommerce:send');
+                        ometria.init('confirmation', null, <?= $storeId?>);
+                        ometria.trackTransaction(data.details.OrderID);
+
+                        // Start Global Script
+
+                        var totalCartDiscountInMerchantCurrency = 0;
+                        for (i = 0; i < data.details.Discounts.length; i++) {
+                            if (data.details.Discounts[i].DiscountTypeId == 1) {
+                                totalCartDiscountInMerchantCurrency = totalCartDiscountInMerchantCurrency + data.details.Discounts[i].DiscountPrices.CustomerTransactionInMerchantCurrency.CustomerPriceInMerchantCurrency;
+                            }
+                        }
+                        var orderItems = [];
+
+                        for (i = 0; i < data.details.ProductInformation.length; i++) {
+
+                            var orderItem = {
+                                'name': data.details.ProductInformation[i].ProductName,
+                                'sku': data.details.ProductInformation[i].SKU,
+                                'category': (data.details.ProductInformation[i].Categories != null && data.details.ProductInformation[i].Categories.length) ? data.details.ProductInformation[i].Categories[0].Name : '',
+                                'price': data.details.ProductInformation[i].ProductPrices.CustomerTransactionInMerchantCurrency.CustomerDiscountedPriceInMerchantCurrency,
+                                'quantity': data.details.ProductInformation[i].Quantity,
+                                'currency': data.details.MerchantCurrencyCode
+
+                            };
+                            orderItems.push(orderItem);
+                        }
+
+                        window.dataLayer = window.dataLayer || [];
+                        window.dataLayer.push({
+                            'event': 'purchase',
+                            'transactionId': data.OrderId,
+                            'transactionAffiliation': 'Global-e',
+                            'transactionTotal': data.details.OrderPrices.CustomerTransactionInMerchantCurrency.CustomerTotalPriceInMerchantCurrency,
+                            'transactionTax': data.details.OrderPrices.CustomerTransactionInMerchantCurrency.CustomerVATInMerchantCurrency,
+                            'transactionProducts': orderItems,
+                            'currency': data.details.MerchantCurrencyCode
+
+                        });
+                        jQuery(document).trigger('ga:inited');
+
+                        //GA4 send order data one order confirmed
+                        var GTMOrderData = [];
+                        for (i = 0; i < data.details.ProductInformation.length; i++) {
+                            var GTMOrderItem = {
+                                'name': data.details.ProductInformation[i].ProductName,
+                                'id': data.details.ProductInformation[i].SKU,
+                                'price': data.details.ProductInformation[i].ProductPrices.CustomerTransactionInMerchantCurrency.CustomerDiscountedPriceInMerchantCurrency,
+                                'brand': data.details.ProductInformation[i].Brand,
+                                'category': (data.details.ProductInformation[i].Categories != null && data.details.ProductInformation[i].Categories.length) ? data.details.ProductInformation[i].Categories[0].Name : '',
+                                'quantity': data.details.ProductInformation[i].Quantity
+                            };
+                            GTMOrderData.push(GTMOrderItem);
+                        }
+                        dataLayer.push({
+                            'event': 'checkout',
+                            'ecommerce': {
+                                'currencyCode': data.details.MerchantCurrencyCode,
+                                'checkout': {
+                                    'actionField': {'step': 2},
+                                    'products': GTMOrderData
+                                }
+                            }
+                        })
+
+                            // End Global Script
+                            (function (w, d, s, l, i) {
+                                w[l] = w[l] || [];
+                                w[l].push({
+                                    'gtm.start': new Date().getTime(),
+                                    event: 'gtm.js'
+                                });
+                                f = d.getElementsByTagName(s)[0];
+                                j = d.createElement(s);
+                                dl = l != 'dataLayer' ? '&l=' + l : '';
+                                j.async = true;
+                                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                                f.parentNode.insertBefore(j, f);
+                            })(window, document, 'script', 'dataLayer', '<?= $gtmAccountId; ?>');
+                    }
+
+                    break;
+            }
+        });
+
+    </script>
+    <script src="https://analytics-js.mysz.io/pixelEx.js?retailer_token=tp3vgxh8aT98TgNKCJ9TaHkk type="text/javascript"></script>
+<?php endif; ?>

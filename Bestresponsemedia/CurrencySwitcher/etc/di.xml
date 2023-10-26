@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Framework\App\Action\AbstractAction">
+        <plugin name="brm_geoip" type="BestResponseMedia\CurrencySwitcher\Plugin\Geoip" sortOrder="15"/>
+    </type>
+
+    <type name="Magento\Customer\Controller\Account\LoginPost">
+        <plugin name="brm_after_customer_login" type="BestResponseMedia\CurrencySwitcher\Plugin\AfterCustomerLogin" sortOrder="1" />
+    </type>
+
+    <type name="Magento\Directory\Controller\Currency\SwitchAction">
+        <plugin name="brm_directory_currency_switch_plugin"
+                type="BestResponseMedia\CurrencySwitcher\Plugin\Currency\SwitchActionPlugin"
+                sortOrder="1"
+                disabled="false"/>
+    </type>
+
+</config>

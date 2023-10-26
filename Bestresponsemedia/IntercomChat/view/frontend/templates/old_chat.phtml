@@ -1,0 +1,56 @@
+<?php
+
+
+$_helper = $this->helper('BestResponseMedia\IntercomChat\Helper\Data');
+$loggedIn = $_helper->IsLoggedIn();
+$appId = $_helper->getAppId();
+?>
+
+<div id="chat-icon" class="header-live-chat icon-comment" style="position: fixed; padding: 5px 15px;
+background-color: #0b0b0b; z-index: 100;bottom: 20px;
+right: 65px;
+ color: white; cursor: pointer;"> Chat </div>
+<script>
+    require(['jquery', 'jquery/ui'], function($){
+        /* Intercom chat script */
+        window.intercomSettings = {
+            app_id: "<?php echo $appId; ?>",
+            // custom_launcher_selector: '.header-live-chat' /* open chat on this class elements */
+            custom_launcher_selector: '.header-live-chat' /* open chat on this class elements */
+        };
+
+        (function()
+        {
+            var w=window;
+            var ic=w.Intercom;
+            if(typeof ic==="function")
+            {
+                ic('reattach_activator');
+                ic('update',w.intercomSettings);
+            }
+            else
+            {
+                var d=document;
+                var i=function(){i.c(arguments);};
+                i.q=[];
+                i.c=function(args){i.q.push(args);};
+                w.Intercom=i;
+                var l=function(){
+                    var s=d.createElement('script');
+                    s.type='text/javascript';
+                    s.async=true;
+                    s.src='https://widget.intercom.io/widget/ue4kdynp';
+                    var x=d.getElementsByTagName('script')[0];
+                    x.parentNode.insertBefore(s,x);
+                };
+
+                if(w.attachEvent){
+                    w.attachEvent('onload',l);
+                } else {
+                    w.addEventListener('load',l,false);
+                }
+            }
+        })();
+        /* Intercom chat script END */
+    });
+</script>
