@@ -1,0 +1,25 @@
+<?php
+/**
+ * \Magebit\PageListWidget\Block\Widget\PageList $block
+ */
+?>
+
+<?php if($block->getTitle()): ?>
+    <h2 class='title'> <?php echo $block->getTitle(); ?> </h2>
+<?php endif; ?>
+
+<?php $cmsPages = $block->getCmsPages(); ?>
+<?php if ($cmsPages->getSize() > 0): ?>
+    <ul class="cms-pages-list">
+        <?php foreach ($cmsPages as $page): ?>
+            <li>
+                    <?php echo $page->getTitle(); ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>No CMS pages to display.</p>
+<?php endif; ?>
+
+
+
