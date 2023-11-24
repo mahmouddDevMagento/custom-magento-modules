@@ -1,0 +1,15 @@
+{
+    "unioncoop_table": {
+        "column": {
+            "customer_id": true,
+            "product_id": true,
+            "product_sku": true,
+            "product_name": true,
+            "created_at": true,
+            "id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

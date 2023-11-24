@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="UnionCoop_MagentoTask::unioncoop" title="Union Coop" module="UnionCoop_MagentoTask" sortOrder="10" resource="UnionCoop_MagentoTask::unioncoop"/>
+        <add id="UnionCoop_MagentoTask::OosTable" title="Union OOS Table" module="UnionCoop_MagentoTask" sortOrder="20" parent="UnionCoop_MagentoTask::unioncoop" action="union/index/index" resource="UnionCoop_MagentoTask::OosTable"/>
+
+    </menu>
+</config>
