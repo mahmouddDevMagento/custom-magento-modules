@@ -12,6 +12,7 @@ use Magento\Framework\Message\ManagerInterface;
 use Magento\Catalog\Helper\Image;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\UrlInterface;
+use Magento\Framework\View\LayoutInterface;
 
 class CartItemsPopup implements ObserverInterface
 {
@@ -39,6 +40,11 @@ class CartItemsPopup implements ObserverInterface
     protected $cart;
 
     /**
+     * @var LayoutInterface
+     */
+    protected $layout;
+
+    /**
      * @param RequestInterface $request
      * @param Session $session
      * @param StockStateInterface $stockState
@@ -52,7 +58,8 @@ class CartItemsPopup implements ObserverInterface
         Image $imageHelper,
         ProductRepositoryInterface $productRepository,
         UrlInterface $urlBuilder,
-        Cart $cart
+        Cart $cart,
+        LayoutInterface $layout
 
     ) {
         $this->request = $request;
@@ -63,7 +70,7 @@ class CartItemsPopup implements ObserverInterface
         $this->productRepository = $productRepository;
         $this->_urlBuilder = $urlBuilder;
         $this->cart = $cart;
-
+        $this->layout = $layout;
     }
 
     /**
@@ -132,29 +139,29 @@ class CartItemsPopup implements ObserverInterface
     }
 
 
-    public function triggerPopup($outOfStockItems)
-    {
-        $popupContent = '<div class="out-of-stock-popup">';
-        $popupContent .= '<h2>Out of Stock Items</h2>';
-
-        foreach ($outOfStockItems as $item) {
-            $popupContent .= '<form action="' . $this->_urlBuilder->getUrl('unioncoop/index/removeFromCart') . '" method="post">';
-            $popupContent .= '<input type="hidden" name="id" value="' . $item['id'] . '">';
-            $popupContent .= '<div class="out-of-stock-item">';
-            $popupContent .= '<img src="' . $item['image'] . '" alt="' . $item['name'] . '">';
-            $popupContent .= '<h3>' . $item['name'] . '</h3>';
-            $popupContent .= '<p>ID: ' . $item['id'] . '</p>';
-            $popupContent .= '<p>SKU: ' . $item['sku'] . '</p>';
-            $popupContent .= '<a href="' . $item['url'] . '" target="_blank">View Product</a>';
-            $popupContent .= '<button type="submit">Submit</button>';
-            $popupContent .= '</div>';
-            $popupContent .= '</form>';
-        }
-
-        $popupContent .= '</div>';
-
-        $this->messageManager->addWarning($popupContent);
-    }
+//    public function triggerPopup($outOfStockItems)
+//    {
+//        $popupContent = '<div class="out-of-stock-popup">';
+//        $popupContent .= '<h2>Out of Stock Items</h2>';
+//
+//        foreach ($outOfStockItems as $item) {
+//            $popupContent .= '<form action="' . $this->_urlBuilder->getUrl('unioncoop/index/removeFromCart') . '" method="post">';
+//            $popupContent .= '<input type="hidden" name="id" value="' . $item['id'] . '">';
+//            $popupContent .= '<div class="out-of-stock-item">';
+//            $popupContent .= '<img src="' . $item['image'] . '" alt="' . $item['name'] . '">';
+//            $popupContent .= '<h3>' . $item['name'] . '</h3>';
+//            $popupContent .= '<p>ID: ' . $item['id'] . '</p>';
+//            $popupContent .= '<p>SKU: ' . $item['sku'] . '</p>';
+//            $popupContent .= '<a href="' . $item['url'] . '" target="_blank">View Product</a>';
+//            $popupContent .= '<button type="submit">Submit</button>';
+//            $popupContent .= '</div>';
+//            $popupContent .= '</form>';
+//        }
+//
+//        $popupContent .= '</div>';
+//
+//        $this->messageManager->addWarning($popupContent);
+//    }
 }
 
 

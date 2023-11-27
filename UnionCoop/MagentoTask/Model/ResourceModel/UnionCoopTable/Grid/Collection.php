@@ -6,9 +6,6 @@ use Magento\Framework\Search\AggregationInterface;
 use Magento\Framework\Api\Search\SearchResultInterface;
 use UnionCoop\MagentoTask\Model\ResourceModel\UnioncoopTable\Collection as UnioncoopTableCollection;
 
-/**
- * Class Collection grid
- */
 class Collection extends UnioncoopTableCollection implements SearchResultInterface
 {
 
@@ -45,6 +42,7 @@ class Collection extends UnioncoopTableCollection implements SearchResultInterfa
         $this->_init($model, $resourceModel);
         $this->setMainTable($mainTable);
     }
+
 
     public function getAggregations()
     {

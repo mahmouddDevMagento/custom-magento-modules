@@ -4,9 +4,6 @@ namespace UnionCoop\MagentoTask\Model\ResourceModel\UnioncoopTable;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
-/**
- * Class Collection model
- */
 class Collection extends AbstractCollection
 {
     protected $_idFieldName = "id";
@@ -37,14 +34,6 @@ class Collection extends AbstractCollection
             \UnionCoop\MagentoTask\Model\ResourceModel\UnioncoopTable::class
         );
         $this->_map["fields"]["id"] = "main_table.id";
-    }
-
-    public function addStoreFilter($store, $withAdmin = true)
-    {
-        if (!$this->getFlag("store_filter_added")) {
-            $this->performAddStoreFilter($store, $withAdmin);
-        }
-        return $this;
     }
 
 }

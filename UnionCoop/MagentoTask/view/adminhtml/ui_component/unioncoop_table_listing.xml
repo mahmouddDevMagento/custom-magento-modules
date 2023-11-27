@@ -216,15 +216,5 @@
                 </item>
             </argument>
         </column>
-<!--        <actionsColumn name="actions" class ="Ui\Component\Listing\Column\GridAction">-->
-<!--            <argument name="data" xsi:type="array">-->
-<!--                <item name="config" xsi:type="array">-->
-<!--                    <item name="resizeEnabled" xsi:type="boolean">false</item>-->
-<!--                    <item name="resizeDefaultWidth" xsi:type="string">100</item>-->
-<!--                    <item name="indexField" xsi:type="string">id</item>-->
-<!--                    <item name="sortOrder" xsi:type="number">180</item>-->
-<!--                </item>-->
-<!--            </argument>-->
-<!--        </actionsColumn>-->
     </columns>
 </listing>

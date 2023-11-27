@@ -4,8 +4,8 @@
  */
 ?>
 
-<?php if($block->getTitle()): ?>
-    <h2 class='title'> <?php echo $block->getTitle(); ?> </h2>
+<?php if ($block->getTitle()): ?>
+    <h2 class='title'><?php echo $block->escapeHtml($block->getTitle()); ?></h2>
 <?php endif; ?>
 
 <?php $cmsPages = $block->getCmsPages(); ?>
@@ -13,7 +13,9 @@
     <ul class="cms-pages-list">
         <?php foreach ($cmsPages as $page): ?>
             <li>
-                    <?php echo $page->getTitle(); ?>
+                <a href="<?php echo $block->getUrl(null, ['_direct' => $page->getIdentifier()]); ?>">
+                    <?php echo $block->escapeHtml($page->getTitle()) ?>
+                </a>
             </li>
         <?php endforeach; ?>
     </ul>

@@ -1,0 +1,12 @@
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:View/Layout:etc/page_configuration.xsd">
+    <head>
+        <css src="UnionCoop_MagentoTask::css/popup.css" />
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="UnionCoop\MagentoTask\Block\Popup" name="modal.content" as="modal_content" template="UnionCoop_MagentoTask::popup.phtml">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

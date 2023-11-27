@@ -1,0 +1,65 @@
+<?php
+/**
+ * \UnionCoop\MagentoTask\Block\Popup $block
+ */
+?>
+
+<?php $outOfStockItems = $block->getOutOfStockItems(); ?>
+
+<?php if (!empty($outOfStockItems)) : ?>
+    <div id="modal-content">
+        <div id="modal-content">
+            <?php $outOfStockItems = $block->getOutOfStockItems(); ?>
+            <div class="out-of-stock-popup">
+                <?php if (!empty($outOfStockItems)) : ?>
+                    <?php foreach ($outOfStockItems as $item) : ?>
+                        <form action="<?php echo $block->getUrl('unioncoop/index/removeFromCart'); ?>" method="post">
+                            <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                            <div class="out-of-stock-item">
+                                <img class="item-image" src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
+                                <div class="item-details">
+                                    <h3 class="item-name"><?php echo $item['name']; ?></h3>
+                                    <p class="item-sku">SKU: <?php echo $item['sku']; ?></p>
+                                    <span class="out-of-stock-label">Out of Stock</span>
+                                    <a class="view-product-link" href="<?php echo $item['url']; ?>" target="_blank">View Product</a>
+                                </div>
+                                <button type="submit" class="submit-button">Submit</button>
+                            </div>
+                        </form>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <p>No out-of-stock items found.</p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <script>
+        require(
+            [
+                'jquery',
+                'Magento_Ui/js/modal/modal'
+            ],
+            function(
+                $,
+                modal
+            ) {
+                var options = {
+                    type: 'popup',
+                    responsive: true,
+                    innerScroll: true,
+                    title: 'Out Of Stock Products',
+                    buttons: [{
+                        text: $.mage.__('Close'),
+                        class: 'close',
+                        click: function () {
+                            this.closeModal();
+                        }
+                    }]
+                };
+
+                var popup = modal(options, $('#modal-content'));
+                $('#modal-content').modal('openModal');
+            }
+        );
+    </script>
+<?php endif; ?>
