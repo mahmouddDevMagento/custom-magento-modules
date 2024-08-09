@@ -1,0 +1,172 @@
+<?php
+    $reorderHelper = $this->helper('Unioncoop\CustomerAccountReorder\Helper\Data');
+    $orderId = $block->getData('order_id');
+    $loaderUrl = $block->getViewFileUrl('Ced_CsImportExport::image/loader-2.gif');
+?>
+<div id="modal-content" class='buy-again-modal-content-<?= $orderId ?>' style="display: none;">
+    <div id="loader-container" style="display: none;">
+        <img src="<?php echo $loaderUrl; ?>" alt="Loading...">
+    </div>
+
+    <div class="popup-back-btn account-bk-btn">
+        <a href="<?php echo $this->getUrl('sales/order/view/order_id/'.$orderId.'/') ?>" class="back-button">
+            <?= /* @noEscape */ __('Back') ?>
+        </a>
+    </div>
+
+    <div id="select-all-container">
+        <label for="select-all-items" class="select-all-label"><?= /* @noEscape */ __('Select All') ?></label>
+        <input id="select-all-items" type="checkbox">
+    </div>
+    <div class="note-container">
+        <img class="note-image" src="<?= $block->getViewFileUrl('Unioncoop_CustomerAccountReorder::images/note.png') ?>">
+        <p class="note"><?= /* @noEscape */ __('Prices might have changed from the last order') ?></p>
+    </div>
+
+    <div class="reorder">
+        <div class="reorder-items">
+            <?php if($orderId): ?>
+                <?php $orderItems = $reorderHelper->getOrderItems($orderId); ?>
+                <?php foreach ($orderItems as $item): ?>
+                    <?php
+                    $coreHelper = $this->helper('Ktpl\Core\Helper\Data');
+                    $coreHelperData = $coreHelper->getProductCustomDataById($item['id']);
+                    $sellingFormatLabel =  $coreHelperData[1];
+
+                    $stockHelper = $this->helper('Ktpl\Checkout\Helper\ProductStock');
+                    $stockItem = $stockHelper->getStockQtyByProductId($item['id'], $coreHelperData[3]);
+
+                    $sellingFormat = strtolower($coreHelperData[1] ?? '');
+                    $decimalPoint = 0;
+                    $defaultQty = $item['qty'];
+                    if ($sellingFormat == 'kg' || $sellingFormat == 'KG') {
+                        $defaultQty = number_format($item['qty'], 2);
+                        $defaultQty = $defaultQty + 0;
+                        $decimalPoint =  2;
+
+                    } elseif ($sellingFormat == 'gram' || $sellingFormat == 'Gram') {
+                        $defaultQty = number_format($item['qty'], 3);
+                        $decimalPoint =  3;
+                    } else {
+                        $defaultQty = number_format($item['qty'], 0);
+                        $decimalPoint = 0;
+                    }
+
+                    ?>
+
+                    <div class="order-item">
+                        <?php if (!$item['out_of_stock']): ?>
+                            <div class="item-details-container in-stock">
+                                <input class="check-item" type="checkbox" name="order_item[]" value="<?php echo $item['id']; ?>">
+                                <img class="item-image" src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
+                                <div class="item-details">
+                                    <h5 class="item-name"><?php echo $item['name']; ?></h5>
+                                    <p class="item-qty"><?= $block->escapeHtml(__('Qty')) ?>: <?= $defaultQty ?>
+                                        <label class="quick-order-qty-label"> <?= /* @noEscape */ ($sellingFormat == 'kg' || $sellingFormat == 'KG' || $sellingFormat == 'gram' || $sellingFormat == 'Gram') ? $sellingFormatLabel: '' ?></label>
+                                    </p>
+                                    <p class="item-price">
+                                        <?= $item['currency'];?>
+                                        <span > <?= $item['price']; ?> </span>
+                                    </p>
+
+                                </div>
+                                <div class="reorder-popup-control" data-bind="scope: 'qty_change_<?= $item['id']; ?>_order_<?= $orderId?>'">
+                                    <button class="decrease decrease-btn" data-bind="click: decreaseQty">
+                                        <?php  /** @var \Magento\Framework\View\Element\Template $block */?>
+                                        <img src="<?= $block->getViewFileUrl('Unioncoop_CustomerAccountReorder::images/decrease.png') ?>">
+                                    </button>
+                                    <div class="qty-display">
+                                        <span class="qty-display-<?= $item['id']; ?>" name="qty">
+                                            <?= $defaultQty ?>
+                                        </span>
+                                        <label class="quick-order-qty-label"> <?= /* @noEscape */ ($sellingFormat == 'kg' || $sellingFormat == 'KG' || $sellingFormat == 'gram' || $sellingFormat == 'Gram') ? $sellingFormatLabel: '' ?></label>
+                                    </div>
+
+                                    <!--                                    <div class="qty-display" name="qty">--><?php //= number_format($defaultQty, $decimalPoint); ?><!--</div>-->
+                                    <!--                                    <input type="number" class="qty-display qty-input" data-bind="value: qtyDisplay, event: {change: updateQty}">-->
+
+                                    <button class="increase increase-btn" data-bind="click: increaseQty">
+                                        <?php  /** @var \Magento\Framework\View\Element\Template $block */?>
+                                        <img src="<?= $block->getViewFileUrl('Unioncoop_CustomerAccountReorder::images/right-icon.png') ?>">
+                                    </button>
+                                </div>
+
+                            </div>
+                        <?php else: ?>
+                        <div class="item-details-container out-of-stock" data-product-id="<?php echo $item['id']; ?>">
+                                <img class="item-image" src="<?php echo $item['image']; ?>" alt="<?php echo $item['name']; ?>">
+                                <div class="item-details">
+                                    <h5 class="item-name"><?php echo $item['name']; ?></h5>
+                                    <p class="item-qty"><?= $block->escapeHtml(__('Qty')) ?>: <?= $defaultQty ?></p>
+                                    <p class="item-price">
+                                        <?= $item['currency'];?>
+                                        <span > <?= $item['price']; ?> </span>
+                                    </p>
+                                </div>
+                                <div class="out-of-stock-container">
+                                    <div class="out-of-stock-flag"><?= /* @noEscape */ __('Back Soon') ?></div>
+                                </div>
+                            <div class="notify-container">
+                                <button class="notify-me-button">
+                                    <img src="<?= $block->getViewFileUrl('Unioncoop_CustomerAccountReorder::images/bell-ringing.png') ?>" alt="Notification Bell" class="notification-icon">
+                                    <span class="notify-btn"><?= /* @noEscape */ __('Notify Me') ?></span>
+                                </button>
+
+                            </div>
+                            <div class="notify-message-container"></div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <script type="text/x-magento-init">
+                        {
+                            "*": {
+                                "Magento_Ui/js/core/app": {
+                                    "components": {
+                                        "qty_change_<?= $item['id']; ?>_order_<?= $orderId; ?>": {
+                                        "component": "Unioncoop_CustomerAccountReorder/js/reorder/product/qty_change",
+                                        "defaultQty": <?= $defaultQty; ?>,
+                                        "productId": <?= $item['id']; ?>,
+                                        "saleableQty": "<?= base64_encode($stockItem['qty'] ?? 0); ?>",
+                                        "minQty": <?= $stockItem['min_qty'] ?? 1; ?>,
+                                        "incrementQty": <?= $stockItem['qty_increments'] ?? 1; ?>,
+                                        "decimalPoint": <?= $decimalPoint; ?>,
+                                        "baseUrl": "<?= $block->escapeJs($block->getUrl('')) ?>"
+                                         }
+                                   }
+                             }
+                         }
+                     }
+                    </script>
+
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        <button class="submit-button" id="add-to-cart"><?= __("Add to Cart") ?></button>
+    </div>
+</div>
+
+<script>
+    require([
+        'Unioncoop_CustomerAccountReorder/js/reorder'
+    ], function (reorder) {
+
+        var imgPath = '<?= $block->getViewFileUrl('Unioncoop_CustomerAccountReorder::images/buy.png') ?>';
+        var popupTitle = '<?= __("Buy again") ?>';
+        var reorderAddToCartUrl = '<?= $this->getUrl("customeraccountreorder/cart/add") ?>';
+        var notifyUrl = '<?= $this->getUrl("customeraccountreorder/cart/notify") ?>';
+        var cartRedirectUrl = '<?= $block->getUrl("checkout/cart") ?>';
+        var orderId = '<?= $orderId ?>';
+
+        var params = {
+            imgPath: imgPath,
+            popupTitle: popupTitle,
+            reorderAddToCartUrl: reorderAddToCartUrl,
+            notifyUrl: notifyUrl,
+            cartRedirectUrl: cartRedirectUrl,
+            orderId: orderId
+        };
+
+        reorder(params);
+
+    });
+</script>

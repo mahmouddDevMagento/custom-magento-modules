@@ -1,0 +1,25 @@
+<div class="tamayaz-redeem-wrapper" data-bind="visible: displayBlock">
+    <div class="line top-line"></div>
+    <div class="tamayaz-redeem">
+        <div class="tamayaz-redeem-block">
+            <label for="redeem_points_toggle" class="redeem-label">
+                <strong data-bind="text: blockTitle"></strong>
+            </label>
+            <div class="tamayaz-redeem-toggle">
+                <div class="redeem-info">
+                    <span class="redeem-text" data-bind="text: 'To redeem ' + redeemPoints + ' = '"></span>
+                    <span class="redeem-price">
+                        <span class="price-value" data-bind="text: redeemPointsAmount"></span>
+                        <span class="currency-symbol">AED</span>
+                    </span>
+
+                </div>
+                <label class="switch" data-bind="visible: canRedeem">
+                    <input type="checkbox" id="redeem_points_toggle" data-bind="checked: isSwitchChecked">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="line bottom-line"></div>
+</div>

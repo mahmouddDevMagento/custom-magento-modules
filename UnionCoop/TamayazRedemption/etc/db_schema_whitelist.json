@@ -1,0 +1,45 @@
+{
+    "tamayaz_redemption_factor": {
+        "column": {
+            "id": true,
+            "code": true,
+            "redemption_factor": true,
+            "created_at": true,
+            "updated_at": true,
+            "updated_by": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "quote": {
+        "column": {
+            "redeem_points": true,
+            "redeem_points_amount": true,
+            "use_redeem_points_amount": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "redeem_points": true,
+            "redeem_points_amount": true
+        }
+    },
+    "sales_invoice": {
+        "column": {
+            "redeem_points": true,
+            "redeem_points_amount": true
+        }
+    },
+    "sales_creditmemo": {
+        "column": {
+            "redeem_points": true,
+            "redeem_points_amount": true
+        }
+    },
+    "onlinepartners_orders": {
+        "column": {
+            "redeem_points_amount": true
+        }
+    }
+}

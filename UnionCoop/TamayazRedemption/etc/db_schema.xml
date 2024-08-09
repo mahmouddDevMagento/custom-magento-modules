@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="tamayaz_redemption_factor" resource="default" engine="innodb" comment="Redemption Factor Table">
+            <column xsi:type="int" name="id" nullable="false" identity="true" unsigned="true" comment="ID"/>
+            <column xsi:type="varchar" name="code" nullable="false" length="255" comment="Code"/>
+            <column xsi:type="decimal" name="redemption_factor" nullable="false" precision="12" scale="4" comment="Redemption Factor"/>
+            <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="false" comment="Created At"/>
+            <column xsi:type="timestamp" name="updated_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="true" comment="Updated At"/>
+            <column xsi:type="varchar" name="updated_by" nullable="false" length="255" comment="Updated By"/>
+            <constraint xsi:type="primary" referenceId="PRIMARY">
+                <column name="id"/>
+            </constraint>
+    </table>
+
+    <table name="quote">
+        <column xsi:type="int" name="redeem_points" nullable="true" default="0" comment="Redeem Points"/>
+        <column xsi:type="decimal" name="redeem_points_amount" scale="2" precision="10" nullable="true" default="0.00" comment="Redeem Points Amount"/>
+        <column xsi:type="boolean" name="use_redeem_points_amount" nullable="false" default="0" comment="Use Redeem Points Amount"/>
+    </table>
+
+    <table name="sales_order">
+        <column xsi:type="int" name="redeem_points" nullable="true" default="0" comment="Redeem Points"/>
+        <column xsi:type="decimal" name="redeem_points_amount" scale="2" precision="10" nullable="true" default="0.00" comment="Redeem Points Amount"/>
+    </table>
+
+    <table name="sales_invoice">
+        <column xsi:type="int" name="redeem_points" nullable="true" default="0" comment="Redeem Points"/>
+        <column xsi:type="decimal" name="redeem_points_amount" scale="2" precision="10" nullable="true" default="0.00" comment="Redeem Points Amount"/>
+    </table>
+
+    <table name="sales_creditmemo">
+        <column xsi:type="int" name="redeem_points" nullable="true" default="0" comment="Redeem Points"/>
+        <column xsi:type="decimal" name="redeem_points_amount" scale="2" precision="10" nullable="true" default="0.00" comment="Redeem Points Amount"/>
+    </table>
+
+    <table name="onlinepartners_orders">
+        <column xsi:type="decimal" name="redeem_points_amount" nullable="true" default="0.00" scale="4" precision="12" comment="Redeem Points Amount"/>
+    </table>
+
+</schema>

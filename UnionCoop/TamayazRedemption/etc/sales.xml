@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/sales.xsd">
+    <section name="quote">
+        <group name="totals">
+            <item name="redeem_points" instance="Unioncoop\TamayazRedemption\Model\Total\Quote\RedeemPoints" sort_order="225"/>
+        </group>
+    </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="redeem_points" instance="Unioncoop\TamayazRedemption\Model\Order\Invoice\Total\RedeemPoints" sort_order="170"/>
+        </group>
+    </section>
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="redeem_points" instance="Unioncoop\TamayazRedemption\Model\Order\Creditmemo\Total\RedeemPoints" sort_order="220"/>
+        </group>
+    </section>
+</config>

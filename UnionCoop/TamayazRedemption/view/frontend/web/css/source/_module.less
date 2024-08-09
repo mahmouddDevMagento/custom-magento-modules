@@ -1,0 +1,108 @@
+.tamayaz-redeem-wrapper {
+    margin: 30px 0;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+    padding-top: 31px;
+    padding-bottom: 31px;
+}
+
+.tamayaz-redeem {
+    padding: 20px 30px;
+    background: #f6f6f6;
+}
+
+.tamayaz-redeem-block {
+    background: #f6f6f6;
+    border: 1px solid #ddd;
+    padding: 16px 21px;
+    border-radius: 10px;
+
+    .redeem-label {
+        font-family: Helvetica, sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 20.7px;
+    }
+    .redeem-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .redeem-text {
+        font-family: Helvetica, sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16.1px;
+        color: #000000;
+    }
+
+    .redeem-price .price-value{
+        font-family: Helvetica, sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        color: #000000;
+        line-height: 18.4px;
+    }
+
+    .redeem-price .currency-symbol{
+        font-family: Helvetica, sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        color: #000000;
+        line-height: 13.8px;
+    }
+
+    .tamayaz-redeem-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+            align-self: center;
+
+            input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                transition: .4s;
+                border-radius: 34px;
+
+                &::before {
+                    position: absolute;
+                    content: "";
+                    height: 19px;
+                    width: 19px;
+                    left: 3px;
+                    bottom: 3px;
+                    background-color: white;
+                    transition: .4s;
+                    border-radius: 50%;
+                }
+            }
+
+            input:checked + .slider {
+                background-color: #037C39;
+            }
+
+            input:checked + .slider::before {
+                transform: translateX(25px);
+            }
+        }
+    }
+}

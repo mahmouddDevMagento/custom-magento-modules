@@ -1,0 +1,8 @@
+<tr>
+    <td class="label" colspan="3" <?php echo $block->getLabelProperties() ?>>
+        <strong><?php echo $block->escapeHtml(__('Redeem Points Amount')) ?></strong>
+    </td>
+    <td class="value" <?php echo $block->getValueProperties() ?>>
+        <?php echo $block->formatPrice($block->getSource()->getRedeemPointsAmount()) ?>
+    </td>
+</tr>

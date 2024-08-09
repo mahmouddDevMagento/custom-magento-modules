@@ -1,0 +1,11 @@
+<?php
+echo 'eeeeeeeeeeeee';
+$source = $block->getSource();
+$redeemPointsAmount = $source->getRedeemPointsAmount();
+?>
+<tr class="totals redeem_points">
+    <th><?= __('Redeem Points Amount') ?></th>
+    <td class="amount">
+        <input type="text" name="creditmemo[redeem_points_amount]" value="<?= $redeemPointsAmount ?>" />
+    </td>
+</tr>

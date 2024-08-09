@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Menu/etc/menu.xsd">
+    <menu>
+        <add id="Unioncoop_TamayazRedemption::tamayaz_redemption" title="Tamayaz Redemption" module="Unioncoop_TamayazRedemption" sortOrder="100" parent="Unioncoop_General::main" resource="Unioncoop_TamayazRedemption::tamayaz_redemption"/>
+        <add id="Unioncoop_TamayazRedemption::redemption_factor" title="Redemption Factors" module="Unioncoop_TamayazRedemption" sortOrder="10" parent="Unioncoop_TamayazRedemption::tamayaz_redemption" action="tamayazredemption/redemptionfactor/index" resource="Unioncoop_TamayazRedemption::redemption_factor"/>
+    </menu>
+</config>

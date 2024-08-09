@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Union Coop.
+ *
+ *  __    __   __   __   __.   ______    __   __       ______   ______     ______   .______
+ * |  |  |  | |  \ |  | |  |  /  __  \  |  \ |  |     /  ____| /  __  \   /  __  \  |   _  \
+ * |  |  |  | |   \|  | |  | |  |  |  | |   \|  |    |  |     |  |  |  | |  |  |  | |  |_)  |
+ * |  |  |  | |  . `  | |  | |  |  |  | |  . `  |    |  |     |  |  |  | |  |  |  | |   ___/
+ * |  `__'  | |  |\   | |  | |  `__'  | |  |\   |    |  `____.|  `__'  | |  `__'  | |  |
+ *  \______/  |__| \__| |__|  \______/  |__| \__|     \______| \______/   \______/  | _|
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <grocery>
+            <reorder_popup_notify_message>
+                <default_message>We will notify you once the product will be available.</default_message>
+            </reorder_popup_notify_message>
+        </grocery>
+    </default>
+</config>

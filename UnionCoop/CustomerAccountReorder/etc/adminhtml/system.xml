@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Union Coop.
+ *
+ *  __    __   __   __   __.   ______    __   __       ______   ______     ______   .______
+ * |  |  |  | |  \ |  | |  |  /  __  \  |  \ |  |     /  ____| /  __  \   /  __  \  |   _  \
+ * |  |  |  | |   \|  | |  | |  |  |  | |   \|  |    |  |     |  |  |  | |  |  |  | |  |_)  |
+ * |  |  |  | |  . `  | |  | |  |  |  | |  . `  |    |  |     |  |  |  | |  |  |  | |   ___/
+ * |  `__'  | |  |\   | |  | |  `__'  | |  |\   |    |  `____.|  `__'  | |  `__'  | |  |
+ *  \______/  |__| \__| |__|  \______/  |__| \__|     \______| \______/   \______/  | _|
+ *
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="grocery" translate="label" type="text" sortOrder="-5000" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <label>Grocery</label>
+            <tab>ktpl</tab>
+            <resource>Magento_Backend::content</resource>
+            <group id="reorder_popup_notify_message" sortOrder="20" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Reorder popup notify me message</label>
+                <field id="default_message" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Default Message</label>
+                    <comment>Reorder popup notify message if product is OOS</comment>
+                </field>
+            </group>
+        </section>
+
+    </system>
+</config>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">free_delivery_setup_form.free_delivery_setup_form_data_source</item>
+            <item name="deps" xsi:type="string">free_delivery_setup_form.free_delivery_setup_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Free Delivery Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">free_delivery_setup_form</item>
+        </item>
+                <item name="buttons" xsi:type="array">
+                    <item name="back" xsi:type="string">Unioncoop\FreeDeliverySetup\Block\Adminhtml\FreeDeliverySetup\Button\Back</item>
+                    <item name="delete" xsi:type="string">Unioncoop\FreeDeliverySetup\Block\Adminhtml\FreeDeliverySetup\Button\Delete</item>
+                    <item name="save" xsi:type="string">Unioncoop\FreeDeliverySetup\Block\Adminhtml\FreeDeliverySetup\Button\Save</item>
+                </item>
+        <item name="spinner" xsi:type="string">general_information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+
+    <dataSource name="free_delivery_setup_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="freedeliverysetup/freedeliverysetup/save"/>
+        </settings>
+        <dataProvider class="Unioncoop\FreeDeliverySetup\Model\FreeDeliverySetup\DataProvider" name="free_delivery_setup_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <fieldset name="general_information">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="collapsible" xsi:type="boolean">false</item>
+                <item name="label" xsi:type="string" translate="true">General Information</item>
+                <item name="sortOrder" xsi:type="number">20</item>
+            </item>
+        </argument>
+        <field name="id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="dataScope" xsi:type="string">id</item>
+
+                </item>
+            </argument>
+        </field>
+        <field name="delivery_type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Unioncoop\FreeDeliverySetup\Model\Config\Source\DeliveryTypeOptions</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Delivery Type</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">free_delivery_type</item>
+                    <item name="dataScope" xsi:type="string">delivery_type</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="day">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Unioncoop\FreeDeliverySetup\Model\Config\Source\DayOptions</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Day</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">free_delivery_type</item>
+                    <item name="dataScope" xsi:type="string">day</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="amount">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="label" xsi:type="string" translate="true">Amount</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">amount</item>
+                    <item name="dataScope" xsi:type="string">amount</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-number" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+    </fieldset>
+</form>

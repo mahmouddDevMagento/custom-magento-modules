@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <virtualType name="RedemptionFactorDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Unioncoop\TamayazRedemption\Model\ResourceModel\RedemptionFactor\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">RedemptionFactorGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="RedemptionFactorGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="tamayaz_redemption_factor_listing_data_source" xsi:type="string">Unioncoop\TamayazRedemption\Model\ResourceModel\RedemptionFactor\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Unioncoop\TamayazRedemption\Model\ResourceModel\RedemptionFactor\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">tamayaz_redemption_factor</argument>
+            <argument name="eventPrefix" xsi:type="string">tamayaz_redemption_factor_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">tamayaz_redemption_factor_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Unioncoop\TamayazRedemption\Model\ResourceModel\RedemptionFactor</argument>
+        </arguments>
+    </type>
+
+    <preference for="Unioncoop\TamayazRedemption\Api\RedemptionFactorRepositoryInterface" type="Unioncoop\TamayazRedemption\Model\RedemptionFactorRepository" />
+    <preference for="Unioncoop\TamayazRedemption\Api\Data\RedemptionFactorInterface" type="Unioncoop\TamayazRedemption\Model\RedemptionFactor" />
+
+</config>

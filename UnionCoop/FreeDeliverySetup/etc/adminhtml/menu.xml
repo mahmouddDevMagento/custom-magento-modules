@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Unioncoop_FreeDeliverySetup::freedelivery" title="Free Delivery" module="Unioncoop_FreeDeliverySetup" sortOrder="10" parent="Unioncoop_General::main" resource="Unioncoop_FreeDeliverySetup::freedelivery"/>
+        <add id="Unioncoop_FreeDeliverySetup::FreeDeliverySetup" title="Free Delivery Setup" module="Unioncoop_FreeDeliverySetup" sortOrder="20" parent="Unioncoop_FreeDeliverySetup::freedelivery" action="freedeliverysetup/freedeliverysetup/index" resource="Unioncoop_FreeDeliverySetup::FreeDeliverySetup"/>
+    </menu>
+</config>
